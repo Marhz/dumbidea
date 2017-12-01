@@ -2,11 +2,11 @@
 
 @section('content')
 <div class="container">
-	<div class="panel panel-default">
-		<div class="panel panel-heading">
+	<div class="card">
+		<div class="card-header">
 			<h4>Create your award</h4>
 		</div>
-		<div class="panel panel-body">
+		<div class="card-body">
 			<form action="{{ route('awards.store') }}" method="POST" enctype='multipart/form-data'>
 				{{ csrf_field() }}
 				<div class="form-group">
