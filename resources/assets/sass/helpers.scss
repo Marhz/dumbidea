@@ -1,0 +1,13 @@
+* {
+	box-sizing: border-box;
+}
+
+.flex {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.no-margin {
+	margin: 0;
+}

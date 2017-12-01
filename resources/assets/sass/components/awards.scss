@@ -1,0 +1,11 @@
+.award {
+	&__title {
+		justify-content: space-between;
+		padding: 5 20px;
+	}
+	&__image {
+		& > img {
+			max-width: 100%
+		}
+	}
+}
