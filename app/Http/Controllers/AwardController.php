@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Award;
 use Illuminate\Http\Request;
+use App\Tag;
 
 class AwardController extends Controller
 {
@@ -25,7 +26,8 @@ class AwardController extends Controller
      */
     public function create()
     {
-        return view('awards.create');
+        $tags = Tag::all()->pluck('name');
+        return view('awards.create', compact('tags', 'tagsSelect'));
     }
 
     /**
@@ -45,6 +47,7 @@ class AwardController extends Controller
             'image' => request()->file('image')->store('awards', 'public'),
             'user_id' => auth()->id()
         ]);
+        $award->syncTags($request->get('tags'));
         return redirect(route('awards.show', ['id' => $award->id]));
     }
 

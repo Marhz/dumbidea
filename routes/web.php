@@ -17,10 +17,7 @@ Route::get('/', function () {
 
 Route::resource('awards', 'AwardController');
 
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/tags/{tag}', 'TagController@show')->name('tag.show');
 
 Auth::routes();
 
