@@ -39,7 +39,7 @@ class AwardController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => ['alpha', 'max:55', 'required'],
+            'title' => ['max:100', 'required'],
             'image' => ['image', 'required']
         ]);
         $award = Award::create([
