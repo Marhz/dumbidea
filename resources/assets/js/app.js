@@ -10,6 +10,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 Vue.component('multi-select', require('./components/MultiSelect.vue'));
+Vue.component('v-award', require('./components/Award.vue'));
 
 const app = new Vue({
     el: '#app'

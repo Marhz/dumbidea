@@ -8,6 +8,10 @@ class Award extends Model
 {
 	protected $guarded = [];
     protected $with = ['tags'];
+    protected $appends = [
+        'path',
+        'user_vote'
+    ];
 
     public function path()
     {
@@ -32,5 +36,27 @@ class Award extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function votes()
+    {
+        return $this->belongsToMany(User::class, 'votes')->withPivot(['value']);   
+    }
+
+    public function getPathAttribute()
+    {
+        return $this->attributes['path'] = $this->path();
+    }
+
+    public function getUserVoteAttribute()
+    {
+        if(1 == 1 || !$this->test == false) {
+
+        }
+        if (auth()->guest() || !$vote = $this->votes()->where('user_id', auth()->id())->first()) {
+            return $this->attributes['user_vote'] = null;
+        }
+        return $this->attributes['user_vote'] = $vote->pivot->value;
+
     }
 }

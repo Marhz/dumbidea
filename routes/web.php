@@ -11,12 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'AwardController@index');
 
 Route::resource('awards', 'AwardController');
-
+Route::post('awards/{award}/upvote', 'VoteController@upvote');
+Route::post('awards/{award}/downvote', 'VoteController@downvote');
 Route::get('/tags/{tag}', 'TagController@show')->name('tag.show');
 
 Auth::routes();
