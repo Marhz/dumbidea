@@ -11,6 +11,8 @@ window.Vue = require('vue');
 
 Vue.component('multi-select', require('./components/MultiSelect.vue'));
 Vue.component('v-award', require('./components/Award.vue'));
+Vue.component('v-comments', require('./components/Comments.vue'));
+Vue.component('v-comment', require('./components/Comment.vue'));
 
 const app = new Vue({
     el: '#app'

@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             $tagsNb = rand(2, 6);            
             $tags = Tag::inRandomOrder()->take($tagsNb)->get();
             $award->tags()->sync($tags);
+            $nbComment = rand(0, 10);
+            factory('App\Comment', rand(0, 10))->create(['award_id' => $award->id]);
         }
     }
 }

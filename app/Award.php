@@ -43,6 +43,11 @@ class Award extends Model
         return $this->belongsToMany(User::class, 'votes')->withPivot(['value']);   
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function getPathAttribute()
     {
         return $this->attributes['path'] = $this->path();
