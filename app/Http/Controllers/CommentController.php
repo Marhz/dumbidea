@@ -29,6 +29,7 @@ class CommentController extends Controller
             'user_id' => auth()->id(),
             'award_id' => $award->id
         ]);
+        $comment->author = auth()->user();
         return $comment;
     }
 

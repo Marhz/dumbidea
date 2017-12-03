@@ -20,7 +20,6 @@ class CommentsTest extends TestCase
      */
     function a_list_of_comments_can_be_fetched_for_an_award()
     {
-        $this->withoutExceptionHandling();
         $award = create('App\Award');
         create('App\Comment', ['award_id' => $award->id], 5);
         $this->getJson("api/awards/{$award->id}/comments")
@@ -59,7 +58,7 @@ class CommentsTest extends TestCase
     function a_user_can_delete_his_own_comment()
     {
         $comment = create('App\Comment');
-        $this->signIn($comment->user);
+        $this->signIn($comment->author);
         $this->deleteJson(route('comments.destroy', ['comment' => $comment->id]))
             ->assertStatus(200);
         $this->assertDatabaseMissing('comments', ['id' => $comment->id]);
@@ -84,7 +83,7 @@ class CommentsTest extends TestCase
     function a_user_can_update_his_comment()
     {
         $comment = create('App\Comment');
-        $this->signIn($comment->user);
+        $this->signIn($comment->author);
         $edit = "edited comment";
         $this->patchJson(route('comments.update', ['comment' => $comment->id]), ['content' => $edit])
             ->assertStatus(200);

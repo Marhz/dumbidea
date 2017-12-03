@@ -10,8 +10,8 @@
 			@include('awards._award', $award)
 			<div class="comments">
 				<h3>Comments</h3>
-				<v-comments :award-id="{{ $award->id }}"></v-comments>
 				<hr>
+				<v-comments :award-id="{{ $award->id }}"></v-comments>
 			</div>
 		</div>
 		<div class="col-md-3">
