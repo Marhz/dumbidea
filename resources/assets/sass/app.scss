@@ -9,3 +9,13 @@
 
 @import "helpers";
 @import "components/awards";
+@import "components/tags";
+
+li {
+    list-style: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+

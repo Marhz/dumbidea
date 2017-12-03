@@ -1,0 +1,17 @@
+.tag {
+    font-size: .9rem;
+    padding: .5rem 1rem;
+    margin-right: .5rem;
+    &-count {
+        font-size: .9rem;
+    }
+
+    &-list {
+        display: flex;
+        align-items: center;
+        // justify-content: space-between;
+        &:not(:last-child) {
+            margin-bottom: .75rem;
+        }
+    }
+}

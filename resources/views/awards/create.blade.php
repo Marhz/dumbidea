@@ -19,12 +19,6 @@
 				</div>
 				<div class="form-group">
 					<label for="tags">Tags</label>
-					{{--  <select name="tags[]" id="tags" multiple>
-						@foreach($tags as $tag)
-							<option value="{{ $tag->id }}">{{ $tag->name }}</option>
-						@endforeach
-					</select>  --}}
-					{{--  <pre>{{ $tagsSelect[0] }}</pre>  --}}
 					<multi-select :options="{{ $tags }}"></multi-select>
 				</div>
 				<div class="form-group">

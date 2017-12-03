@@ -9,6 +9,11 @@ class Award extends Model
 	protected $guarded = [];
     protected $with = ['tags'];
 
+    public function path()
+    {
+        return route('awards.show', ['award' => $this->id]);
+    }
+
     public function syncTags($tags)
     {
         $tagsId = [];

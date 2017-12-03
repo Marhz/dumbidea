@@ -9749,3 +9749,52 @@ a.text-dark:hover {
   max-width: 100%;
 }
 
+.award__latest > * {
+  border: 1px dashed red;
+}
+
+.award__latest-img > img {
+  width: 100%;
+  max-height: 200px;
+}
+
+.award__latest-title {
+  margin: 5px 0 15px 0;
+  color: red;
+}
+
+.award__latest-list {
+  border: none;
+}
+
+.tag {
+  font-size: .9rem;
+  padding: .5rem 1rem;
+  margin-right: .5rem;
+}
+
+.tag-count {
+  font-size: .9rem;
+}
+
+.tag-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.tag-list:not(:last-child) {
+  margin-bottom: .75rem;
+}
+
+li {
+  list-style: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
