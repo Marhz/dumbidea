@@ -45213,6 +45213,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['awardId'],
@@ -45232,6 +45237,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 _this.comments.push(data);
                 _this.newComment = '';
+            });
+        },
+        removeComment: function removeComment(comment) {
+            this.comments = this.comments.filter(function (c) {
+                return c.id !== comment.id;
             });
         }
     },
@@ -45296,7 +45306,15 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm._l(_vm.comments, function(comment) {
-        return _c("v-comment", { key: comment.id, attrs: { comment: comment } })
+        return _c("v-comment", {
+          key: comment.id,
+          attrs: { comment: comment },
+          on: {
+            deleted: function($event) {
+              _vm.removeComment(comment)
+            }
+          }
+        })
       })
     ],
     2
@@ -45388,10 +45406,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['comment'],
+    data: function data() {
+        return {
+            content: this.comment.content,
+            edit: this.comment.content,
+            editing: false
+        };
+    },
+
+    methods: {
+        editComment: function editComment() {
+            this.editing = true;
+        },
+        cancelEdit: function cancelEdit() {
+            this.editing = false;
+            this.edit = this.comment.content;
+        },
+        updateComment: function updateComment() {
+            var _this = this;
+
+            axios.patch('/api/comments/' + this.comment.id + '/edit', { content: this.edit }).then(function (res) {
+                _this.content = _this.edit;
+                _this.editing = false;
+            });
+        },
+        deleteComment: function deleteComment() {
+            var _this2 = this;
+
+            axios.delete('/api/comments/' + this.comment.id + '/delete').then(function (res) {
+                _this2.$emit('deleted', _this2.comment.id);
+            });
+        }
+    },
     computed: {
         ago: function ago() {
             return __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.comment.created_at).fromNow();
@@ -45426,28 +45483,75 @@ var render = function() {
         _vm._v(" "),
         _c("hr", { staticClass: "mb-1 mt-1" }),
         _vm._v(" "),
-        _c("p", {
-          staticClass: "comment__content mb-1",
-          domProps: { textContent: _vm._s(_vm.comment.content) }
-        }),
+        _vm.editing
+          ? _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.edit,
+                  expression: "edit"
+                }
+              ],
+              staticClass: "form-control mb-1",
+              attrs: { rows: "3" },
+              domProps: { value: _vm.edit },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.edit = $event.target.value
+                }
+              }
+            })
+          : _c("p", {
+              staticClass: "comment__content mb-1",
+              domProps: { innerHTML: _vm._s(_vm.content) }
+            }),
         _vm._v(" "),
-        _vm._m(0)
+        _c("div", { staticClass: "comment__footer" }, [
+          _c("i", { staticClass: "fa fa-arrow-up mr-1" }),
+          _vm._v(" "),
+          _c("i", { staticClass: "fa fa-arrow-down mr-1" }),
+          _vm._v(" "),
+          _c("i", {
+            staticClass: "fa fa-edit mr-1",
+            on: { click: _vm.editComment }
+          }),
+          _vm._v(" "),
+          _c("i", {
+            staticClass: "fa fa-trash-o mr-1",
+            on: { click: _vm.deleteComment }
+          }),
+          _vm._v(" "),
+          _vm.editing
+            ? _c("div", { staticClass: "pull-right" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    on: { click: _vm.updateComment }
+                  },
+                  [_vm._v("Edit")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-default",
+                    on: { click: _vm.cancelEdit }
+                  },
+                  [_vm._v("Cancel")]
+                )
+              ])
+            : _vm._e()
+        ])
       ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "comment__footer" }, [
-      _c("i", { staticClass: "fa fa-arrow-up mr-1" }),
-      _vm._v(" "),
-      _c("i", { staticClass: "fa fa-arrow-down" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

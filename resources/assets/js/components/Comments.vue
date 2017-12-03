@@ -11,7 +11,12 @@
                 <button class="btn btn-primary pull-right m-2" @click="createComment">Post</button>
             </div>
         </div>
-        <v-comment v-for="comment in comments" :key="comment.id" :comment="comment"></v-comment>
+        <v-comment 
+            v-for="comment in comments" 
+            :key="comment.id"
+            :comment="comment" 
+            @deleted="removeComment(comment)"
+        ></v-comment>
     </div>
 </template>
 
@@ -31,6 +36,9 @@
                         this.comments.push(data);
                         this.newComment = '';
                     });
+            },
+            removeComment(comment) {
+                this.comments = this.comments.filter(c => c.id !== comment.id)
             }
         },
         created() {

@@ -13,4 +13,9 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function getContentAttribute()
+    {
+        return $this->attributes['content'] = nl2br($this->attributes['content']);;
+    }
 }
