@@ -15,12 +15,12 @@ class VoteController extends Controller
     public function upvote($model, $id)
     {
         $model = 'App\\' . ucfirst(str_singular($model));
-        $model::findOrFail($id)->upvote();
+        return $model::findOrFail($id)->upvote();
     }
 
     public function downvote($model, $id)
     {
         $model = 'App\\' . ucfirst(str_singular($model));
-        $model::findOrFail($id)->downvote();
+        return $model::findOrFail($id)->downvote();
     }
 }

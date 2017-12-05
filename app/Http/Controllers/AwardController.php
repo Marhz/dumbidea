@@ -15,7 +15,7 @@ class AwardController extends Controller
      */
     public function index()
     {
-        $awards = Award::with('owner')->get();
+        $awards = Award::with('votes', 'owner', 'tags')->get();
         return view('awards.index', compact('awards'));
     }
 

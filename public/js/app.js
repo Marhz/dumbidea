@@ -41464,6 +41464,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_vote__["a" /* default */]],
     data: function data() {
         return {
+            score: this.award.score,
             upvoted: this.award.user_vote,
             downvoted: this.award.user_vote === false
         };
@@ -41472,10 +41473,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         upvote: function upvote() {
-            this._upvote(this.award.path + '/upvote');
+            this._upvote(this.award.path + '/upvote').then(function (res) {});
         },
         downvote: function downvote() {
-            this._downvote(this.award.path + '/downvote').then(function (res) {});
+            this._downvote(this.award.path + '/downvote').then(function () {});
         }
     },
     computed: {
@@ -42403,7 +42404,8 @@ if (false) {
     data: function data() {
         return {
             upvoted: false,
-            downvoted: false
+            downvoted: false,
+            score: 0
         };
     },
 
@@ -42412,17 +42414,24 @@ if (false) {
             var _this = this;
 
             return axios.post(url).then(function (res) {
+                _this.updateScore(_this.upvoted, _this.downvoted, 1);
                 _this.upvoted = !_this.upvoted;
                 _this.downvoted = false;
+                return Promise.resolve(res);
             });
         },
         _downvote: function _downvote(url) {
             var _this2 = this;
 
             return axios.post(url).then(function (res) {
+                _this2.updateScore(_this2.downvoted, _this2.upvoted, -1);
                 _this2.downvoted = !_this2.downvoted;
                 _this2.upvoted = false;
+                return Promise.resolve(res);
             });
+        },
+        updateScore: function updateScore(sameVote, oppositeVote, value) {
+            if (oppositeVote) this.score += 2 * value;else if (sameVote) this.score += -value;else this.score += value;
         }
     }
 });

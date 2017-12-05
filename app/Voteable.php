@@ -14,20 +14,20 @@ trait Voteable
 
     public function getUserVoteAttribute()
     {
-        if (auth()->guest() || !$vote = $this->votes()->where('user_id', auth()->id())->first()) {
+        if (auth()->guest() || !$vote = $this->votes->where('id', auth()->id())->first()) {
             return $this->attributes['user_vote'] = null;
         }
-        return $this->attributes['user_vote'] = $vote->pivot->value > 0;
+        return $this->attributes['user_vote'] = $vote->pivot->value == $this->upvoteValue;
     }
 
     public function upvote()
     {
-        $this->vote($this->upvoteValue);
+        return $this->vote($this->upvoteValue);
     }
 
     public function downvote()
     {
-        $this->vote($this->downvoteValue);
+        return $this->vote($this->downvoteValue);
     }
 
     protected function vote($value) {
@@ -41,20 +41,31 @@ trait Voteable
         } else {
             $this->votes()->attach(auth()->id(), ['value' => $value]);
         }
+        return $this;
     }
 
     public function totalUpvotes()
     {
-        return $this->votes()->wherePivot('value', $this->upvoteValue)->count();
+        return $this->votes->where('pivot.value', $this->upvoteValue)->count();        
     }
 
     public function totalDownvotes()
     {
-        return $this->votes()->wherePivot('value', $this->downvoteValue)->count();
+        return $this->votes->where('pivot.value', $this->downvoteValue)->count();
     }
 
     public function totalVotes()
     {
-        return $this->votes()->count();
+        return $this->votes->count();
+    }
+
+    public function score()
+    {
+        return $this->totalUpvotes() - $this->totalDownvotes();
+    }
+
+    public function getScoreAttribute()
+    {
+        return $this->attributes['score'] = $this->score();
     }
 }

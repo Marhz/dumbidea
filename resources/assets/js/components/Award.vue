@@ -5,6 +5,7 @@ export default {
     mixins: [Vote],
     data() {
         return {
+            score: this.award.score,
             upvoted: this.award.user_vote,
             downvoted: this.award.user_vote === false
         }
@@ -12,11 +13,13 @@ export default {
 
     methods: {
         upvote() {
-            this._upvote(`${this.award.path}/upvote`);
+            this._upvote(`${this.award.path}/upvote`)
+                .then((res) => {
+                });
         },
         downvote() {
             this._downvote(`${this.award.path}/downvote`)
-                .then(res => {
+                .then(() => {
                 });
         }
     },

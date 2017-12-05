@@ -9,10 +9,11 @@ class Award extends Model
     use Voteable;
 
 	protected $guarded = [];
-    protected $with = ['tags'];
+    protected $with = [];
     protected $appends = [
         'path',
-        'user_vote'
+        'user_vote',
+        'score'
     ];
 
     public function path()
