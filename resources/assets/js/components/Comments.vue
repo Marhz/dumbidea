@@ -1,14 +1,16 @@
 <template>
     <div>
-        <div class="comment__new flex mb-5">
-            <img src="http://via.placeholder.com/64x64" alt="" class="mr-2">
+        <div class="comment__new mb-5 flex">
+            <div class="is64x64 img-container mr-2">
+                <async-img src="http://via.placeholder.com/64x64" alt="" class="mr-2"/>
+            </div>
             <div class="comment__new-input">
                 <textarea 
                     v-model="newComment"
                     placeholder="Write your comment"
                     rows="3"
                 ></textarea>
-                <button class="btn btn-primary pull-right m-2" @click="createComment">Post</button>
+                <button class="btn btn-primary m-1 pull-right comment__new-button" @click="createComment">Post</button>
             </div>
         </div>
         <v-comment 

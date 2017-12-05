@@ -1,8 +1,11 @@
 .comment {
     &__new {
-        & > img {
+        & > .img-container {
             align-self: flex-start;
         }        
+    }
+    &__new-button {
+        padding: .1rem .6rem;
     }
     &__new-input {
         flex: 1;
@@ -13,6 +16,8 @@
             border-bottom: 1px solid #cfcfcf;
             resize: none;
             width: 100%;
+            overflow-y: hidden;
+            display: block;
             padding: .3rem .6rem;
         }
     }

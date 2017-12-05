@@ -24,5 +24,9 @@ class DatabaseSeeder extends Seeder
             $nbComment = rand(0, 10);
             factory('App\Comment', rand(0, 10))->create(['award_id' => $award->id]);
         }
+        factory('App\User')->create([
+            'email' => 'test@mail.com',
+            'password' => bcrypt('1234')
+        ]);
     }
 }

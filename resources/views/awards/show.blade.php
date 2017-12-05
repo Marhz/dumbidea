@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
 	<div class="row justify-content-md-center">
 		<div class="col-md-3">
 			@include('awards._latest')

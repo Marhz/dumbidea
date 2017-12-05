@@ -1,7 +1,9 @@
 <template>
     <div class="comment mb-3">
         <div class="media">
-            <img src="http://via.placeholder.com/64x64" alt="" class="d-flex mr-2">
+            <div class="is64x64 d-flex mr-2">
+                <async-img src="http://via.placeholder.com/64x64" alt="User avatar"/>            
+            </div>
             <div class="media-body">
                 <p class="comment__author mb-0">
                     <a href="" v-text="comment.author.name" class="mr-1"></a>
@@ -26,42 +28,42 @@
 </template>
 
 <script>
-    import moment from 'moment';
-    export default {
-        props: ['comment'],
-        data() {
-            return {
-                content: this.comment.content,
-                edit: this.comment.content,
-                editing: false
-            }
-        },
-        methods: {
-            editComment() {
-                this.editing = true;
-            },
-            cancelEdit() {
-                this.editing = false;
-                this.edit = this.comment.content;
-            },
-            updateComment() {
-                axios.patch(`/api/comments/${this.comment.id}/edit`, { content: this.edit })
-                    .then(res => {
-                        this.content = this.edit;
-                        this.editing = false;
-                    });
-            },
-            deleteComment() {
-                axios.delete(`/api/comments/${this.comment.id}/delete`)
-                    .then(res => {
-                        this.$emit('deleted', this.comment.id);
-                    });
-            }
-        },
-        computed: {
-            ago() {
-                return moment(this.comment.created_at).fromNow();
-            }
-        }
+import moment from "moment";
+export default {
+  props: ["comment"],
+  data() {
+    return {
+      content: this.comment.content,
+      edit: this.comment.content,
+      editing: false
+    };
+  },
+  methods: {
+    editComment() {
+      this.editing = true;
+    },
+    cancelEdit() {
+      this.editing = false;
+      this.edit = this.comment.content;
+    },
+    updateComment() {
+      axios
+        .patch(`/api/comments/${this.comment.id}/edit`, { content: this.edit })
+        .then(res => {
+          this.content = this.edit;
+          this.editing = false;
+        });
+    },
+    deleteComment() {
+      axios.delete(`/api/comments/${this.comment.id}/delete`).then(res => {
+        this.$emit("deleted", this.comment.id);
+      });
     }
+  },
+  computed: {
+    ago() {
+      return moment(this.comment.created_at).fromNow();
+    }
+  }
+};
 </script>

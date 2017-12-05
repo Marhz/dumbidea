@@ -6,6 +6,8 @@ $factory->define('App\Award', function (Faker $faker) {
     return [
         'title' => $faker->sentence(),
         'image' => "http://via.placeholder.com/450x600",
-        'user_id' => factory('App\User')->create()->id
+        'user_id' => function () {
+            return factory('App\User')->create()->id;
+        }
     ];
 });
