@@ -12,35 +12,15 @@ class VoteController extends Controller
         $this->middleware('auth');
     }
     
-    public function upvote(Award $award)
+    public function upvote($model, $id)
     {
-        $vote = $award->votes()->where('user_id', auth()->id())->first();
-        if ($vote) {
-            if ($vote->pivot->value == 1) {
-                $award->votes()->detach(auth()->id());
-            }
-            else {
-                $award->votes()->updateExistingPivot(auth()->id(), ['value' => 1]);
-            }
-        }
-        else {
-            $award->votes()->attach(auth()->id(), ['value' => 1]);
-        }
+        $model = 'App\\' . ucfirst(str_singular($model));
+        $model::findOrFail($id)->upvote();
     }
 
-    public function downvote(Award $award)
+    public function downvote($model, $id)
     {
-        $vote = $award->votes()->where('user_id', auth()->id())->first();
-        if ($vote) {
-            if ($vote->pivot->value == -1) {
-                $award->votes()->detach(auth()->id());
-            }
-            else {
-                $award->votes()->updateExistingPivot(auth()->id(), ['value' => -1]);                
-            }
-        }
-        else {
-            $award->votes()->attach(auth()->id(), ['value' => -1]);            
-        }        
+        $model = 'App\\' . ucfirst(str_singular($model));
+        $model::findOrFail($id)->downvote();
     }
 }

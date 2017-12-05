@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Award extends Model
 {
+    use Voteable;
+
 	protected $guarded = [];
     protected $with = ['tags'];
     protected $appends = [
@@ -38,11 +40,6 @@ class Award extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    public function votes()
-    {
-        return $this->belongsToMany(User::class, 'votes')->withPivot(['value']);   
-    }
-
     public function comments()
     {
         return $this->hasMany(Comment::class);
@@ -51,17 +48,5 @@ class Award extends Model
     public function getPathAttribute()
     {
         return $this->attributes['path'] = $this->path();
-    }
-
-    public function getUserVoteAttribute()
-    {
-        if(1 == 1 || !$this->test == false) {
-
-        }
-        if (auth()->guest() || !$vote = $this->votes()->where('user_id', auth()->id())->first()) {
-            return $this->attributes['user_vote'] = null;
-        }
-        return $this->attributes['user_vote'] = $vote->pivot->value;
-
     }
 }

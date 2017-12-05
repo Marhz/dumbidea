@@ -9823,6 +9823,14 @@ a.text-dark:hover {
   padding: .3rem .6rem;
 }
 
+.comment .upvoted {
+  color: green;
+}
+
+.comment .downvoted {
+  color: red;
+}
+
 li {
   list-style: none;
 }

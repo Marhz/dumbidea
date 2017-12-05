@@ -13,8 +13,8 @@
                 <textarea class="form-control mb-1" v-model="edit" rows="3" v-if="editing"></textarea>
                 <p v-html="content" class="comment__content mb-1" v-else></p>
                 <div class="comment__footer">
-                    <i class="fa fa-arrow-up mr-1"></i>
-                    <i class="fa fa-arrow-down mr-1"></i>
+                    <i class="fa fa-arrow-up mr-1" @click="upvote" :class="upvoteBtnClass"></i>
+                    <i class="fa fa-arrow-down mr-1" @click="downvote" :class="downvoteBtnClass"></i>
                     <i class="fa fa-edit mr-1" @click="editComment"></i>
                     <i class="fa fa-trash-o mr-1" @click="deleteComment"></i>
                     <div class="pull-right" v-if="editing">
@@ -29,41 +29,59 @@
 
 <script>
 import moment from "moment";
+import Vote from '../mixins/vote';
+
 export default {
-  props: ["comment"],
-  data() {
-    return {
-      content: this.comment.content,
-      edit: this.comment.content,
-      editing: false
-    };
-  },
-  methods: {
-    editComment() {
-      this.editing = true;
+    props: ["comment"],
+    mixins: [Vote],
+    data() {
+        return {
+            content: this.comment.content,
+            edit: this.comment.content,
+            editing: false,
+            upvoted: this.comment.user_vote,
+            downvoted: this.comment.user_vote === false
+        };
     },
-    cancelEdit() {
-      this.editing = false;
-      this.edit = this.comment.content;
+    methods: {
+        editComment() {
+            this.editing = true;
+        },
+        cancelEdit() {
+            this.editing = false;
+            this.edit = this.comment.content;
+        },
+        updateComment() {
+            axios.patch(`/api/comments/${this.comment.id}/edit`, { content: this.edit })
+                .then(res => {
+                    this.content = this.edit;
+                    this.editing = false;
+                });
+        },
+        deleteComment() {
+            axios.delete(`/api/comments/${this.comment.id}/delete`).then(res => {
+                this.$emit("deleted", this.comment.id);
+            });
+        },
+        upvote() {
+            this._upvote(`/comments/${this.comment.id}/upvote`)
+        },
+        downvote() {
+            this._downvote(`/comments/${this.comment.id}/downvote`)
+        }
     },
-    updateComment() {
-      axios
-        .patch(`/api/comments/${this.comment.id}/edit`, { content: this.edit })
-        .then(res => {
-          this.content = this.edit;
-          this.editing = false;
-        });
-    },
-    deleteComment() {
-      axios.delete(`/api/comments/${this.comment.id}/delete`).then(res => {
-        this.$emit("deleted", this.comment.id);
-      });
+    computed: {
+        ago() {
+            return moment(this.comment.created_at).fromNow();
+        },
+        upvoteBtnClass() {
+            return this.upvoted ? 'upvoted' : '';
+        },
+        downvoteBtnClass() {
+            return this.downvoted ? 'downvoted' : '';
+        }
+
     }
-  },
-  computed: {
-    ago() {
-      return moment(this.comment.created_at).fromNow();
-    }
-  }
 };
 </script>
+

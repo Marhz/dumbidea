@@ -21,4 +21,10 @@
             padding: .3rem .6rem;
         }
     }
+    & .upvoted {
+        color: green;
+    }
+    & .downvoted {
+        color: red;
+    }
 }

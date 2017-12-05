@@ -3,11 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Voteable;
 
 class Comment extends Model
 {
+    use Voteable;
+
     protected $guarded = [];
-    protected $with = ['author'];
+    protected $with = [
+        'author',
+    ];
+    protected $appends = ['user_vote'];
 
     public function author()
     {

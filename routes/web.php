@@ -14,8 +14,12 @@
 Route::get('/', 'AwardController@index');
 
 Route::resource('awards', 'AwardController');
-Route::post('awards/{award}/upvote', 'VoteController@upvote');
-Route::post('awards/{award}/downvote', 'VoteController@downvote');
+Route::post('{model}/{award}/upvote', 'VoteController@upvote')
+    ->where('model', 'awards|comments')
+    ->name('upvote');
+Route::post('{model}/{id}/downvote', 'VoteController@downvote')
+    ->where('model', 'awards|comments')
+    ->name('downvote');
 Route::get('/tags/{tag}', 'TagController@show')->name('tag.show');
 Route::get('api/awards/{award}/comments', 'CommentController@index');
 Route::post('api/awards/{award}/comments', 'CommentController@store')->name('comments.post');

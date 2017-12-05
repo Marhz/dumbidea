@@ -41456,32 +41456,26 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_vote__ = __webpack_require__(184);
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['award'],
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_vote__["a" /* default */]],
     data: function data() {
         return {
-            upvoted: this.award.user_vote === 1,
-            downvoted: this.award.user_vote === -1
+            upvoted: this.award.user_vote,
+            downvoted: this.award.user_vote === false
         };
     },
 
+
     methods: {
         upvote: function upvote() {
-            var _this = this;
-
-            axios.post(this.award.path + '/upvote').then(function (res) {
-                _this.upvoted = !_this.upvoted;
-                _this.downvoted = false;
-            });
+            this._upvote(this.award.path + '/upvote');
         },
         downvote: function downvote() {
-            var _this2 = this;
-
-            axios.post(this.award.path + '/downvote').then(function (res) {
-                _this2.downvoted = !_this2.downvoted;
-                _this2.upvoted = false;
-            });
+            this._downvote(this.award.path + '/downvote').then(function (res) {});
         }
     },
     computed: {
@@ -41747,6 +41741,7 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_vote__ = __webpack_require__(184);
 //
 //
 //
@@ -41776,47 +41771,64 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["comment"],
-  data: function data() {
-    return {
-      content: this.comment.content,
-      edit: this.comment.content,
-      editing: false
-    };
-  },
-
-  methods: {
-    editComment: function editComment() {
-      this.editing = true;
+    props: ["comment"],
+    mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_vote__["a" /* default */]],
+    data: function data() {
+        return {
+            content: this.comment.content,
+            edit: this.comment.content,
+            editing: false,
+            upvoted: this.comment.user_vote,
+            downvoted: this.comment.user_vote === false
+        };
     },
-    cancelEdit: function cancelEdit() {
-      this.editing = false;
-      this.edit = this.comment.content;
-    },
-    updateComment: function updateComment() {
-      var _this = this;
 
-      axios.patch("/api/comments/" + this.comment.id + "/edit", { content: this.edit }).then(function (res) {
-        _this.content = _this.edit;
-        _this.editing = false;
-      });
-    },
-    deleteComment: function deleteComment() {
-      var _this2 = this;
+    methods: {
+        editComment: function editComment() {
+            this.editing = true;
+        },
+        cancelEdit: function cancelEdit() {
+            this.editing = false;
+            this.edit = this.comment.content;
+        },
+        updateComment: function updateComment() {
+            var _this = this;
 
-      axios.delete("/api/comments/" + this.comment.id + "/delete").then(function (res) {
-        _this2.$emit("deleted", _this2.comment.id);
-      });
+            axios.patch("/api/comments/" + this.comment.id + "/edit", { content: this.edit }).then(function (res) {
+                _this.content = _this.edit;
+                _this.editing = false;
+            });
+        },
+        deleteComment: function deleteComment() {
+            var _this2 = this;
+
+            axios.delete("/api/comments/" + this.comment.id + "/delete").then(function (res) {
+                _this2.$emit("deleted", _this2.comment.id);
+            });
+        },
+        upvote: function upvote() {
+            this._upvote("/comments/" + this.comment.id + "/upvote");
+        },
+        downvote: function downvote() {
+            this._downvote("/comments/" + this.comment.id + "/downvote");
+        }
+    },
+    computed: {
+        ago: function ago() {
+            return __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.comment.created_at).fromNow();
+        },
+        upvoteBtnClass: function upvoteBtnClass() {
+            return this.upvoted ? 'upvoted' : '';
+        },
+        downvoteBtnClass: function downvoteBtnClass() {
+            return this.downvoted ? 'downvoted' : '';
+        }
     }
-  },
-  computed: {
-    ago: function ago() {
-      return __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.comment.created_at).fromNow();
-    }
-  }
 });
 
 /***/ }),
@@ -42169,9 +42181,17 @@ var render = function() {
             }),
         _vm._v(" "),
         _c("div", { staticClass: "comment__footer" }, [
-          _c("i", { staticClass: "fa fa-arrow-up mr-1" }),
+          _c("i", {
+            staticClass: "fa fa-arrow-up mr-1",
+            class: _vm.upvoteBtnClass,
+            on: { click: _vm.upvote }
+          }),
           _vm._v(" "),
-          _c("i", { staticClass: "fa fa-arrow-down mr-1" }),
+          _c("i", {
+            staticClass: "fa fa-arrow-down mr-1",
+            class: _vm.downvoteBtnClass,
+            on: { click: _vm.downvote }
+          }),
           _vm._v(" "),
           _c("i", {
             staticClass: "fa fa-edit mr-1",
@@ -42370,6 +42390,42 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    data: function data() {
+        return {
+            upvoted: false,
+            downvoted: false
+        };
+    },
+
+    methods: {
+        _upvote: function _upvote(url) {
+            var _this = this;
+
+            return axios.post(url).then(function (res) {
+                _this.upvoted = !_this.upvoted;
+                _this.downvoted = false;
+            });
+        },
+        _downvote: function _downvote(url) {
+            var _this2 = this;
+
+            return axios.post(url).then(function (res) {
+                _this2.downvoted = !_this2.downvoted;
+                _this2.upvoted = false;
+            });
+        }
+    }
+});
 
 /***/ })
 /******/ ]);
