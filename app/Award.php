@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Award extends Model
 {
@@ -67,5 +68,11 @@ class Award extends Model
  
       // then return the count directly
         return ($related) ? (int)$related->aggregate : 0;
+    }
+
+    public function wasCreatedToday()
+    {
+        return Carbon::now()->lt($this->created_at->startOfDay()->addDay());
+        // return $this->created_at->gt(Carbon::now()->subDay());
     }
 }

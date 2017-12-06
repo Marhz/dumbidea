@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+{{ session('flash')}}
 <div class="container">
 	<div class="card">
 		<div class="card-header">

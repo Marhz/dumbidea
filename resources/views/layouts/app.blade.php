@@ -37,6 +37,24 @@
                         <li class="nav-item"><a href="{{ route('login') }}" class="nav-link">Login</a></li>
                         <li class="nav-item"><a href="{{ route('register') }}" class="nav-link">Register</a></li>
                     @else
+                        @if(auth()->user()->canPostAward())
+                            <li class="nav-item">
+                                <a href="route('awards.create')">
+                                    <button class="btn btn-success">New award</button>                        
+                                </a>
+                            </li>
+                        @else
+                            <v-countdown v-cloak inline-template class="nav-item" timestamp="{{ auth()->user()->nextAvailableAward() * 1000 }}">
+                                <div class="flex">
+                                    <div v-if="!done" class="countdown">
+                                        @{{ format(remaining.hours) }}:@{{ format(remaining.minutes) }}:@{{ format(remaining.seconds) }}
+                                    </div>
+                                    <a href="{{ route('awards.create') }}" class="ml-2">
+                                        <button class="btn btn-success" :disabled="!done">New award</button>
+                                    </a>                                    
+                                </div>
+                            </v-countdown>
+                        @endif
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false">
@@ -58,7 +76,6 @@
                     @endif
                 </ul>
             </div>
-
         </div>
     </nav>
 

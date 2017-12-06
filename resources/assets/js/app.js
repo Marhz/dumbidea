@@ -16,6 +16,7 @@ Vue.component('v-comment', require('./components/Comment.vue'));
 Vue.component('async-img', require('./components/AsyncImg.vue'));
 Vue.component('v-tabs', require('./components/Tabs.vue'));
 Vue.component('v-tab', require('./components/Tab.vue'));
+Vue.component('v-countdown', require('./components/Countdown.vue'));
 
 const app = new Vue({
     el: '#app'

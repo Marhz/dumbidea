@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Award;
 use Illuminate\Http\Request;
 use App\Tag;
+use App\Http\Requests\StoreAwardRequest;
 
 class AwardController extends Controller
 {
@@ -36,12 +36,8 @@ class AwardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAwardRequest $request)
     {
-        $request->validate([
-            'title' => ['max:100', 'required'],
-            'image' => ['image', 'required']
-        ]);
         $award = Award::create([
             'title' => request('title'),
             'image' => request()->file('image')->store('awards', 'public'),

@@ -1,4 +1,4 @@
-<div class="card award__latest-list">
+<div class="card award__latest-list w-100">
     <div class="card-header">
         <h3>Latest</h3>
     </div>

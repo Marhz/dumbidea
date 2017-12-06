@@ -2,7 +2,9 @@
     <div class="card award mb-5">
         <div class="card-header award__title flex">
             <div class="award__title-infos">
-                <h4 class="no-margin">{{ $award->title }}</h4>
+                <a href="{{ $award->path() }}">
+                    <h4 class="no-margin">{{ $award->title }}</h4>
+                </a>
                 <em>by {{ $award->owner->name }}</em>
             </div>
             <div class="award_title-controls flex">
@@ -11,7 +13,7 @@
             </div>
         </div>
         <div class="card-body award__image flex">
-            <img src="{{ asset($award->image) }}" alt="{{ $award->title }}">
+            <async-img src="{{ asset($award->image) }}" alt="{{ $award->title }}" />
         </div>
         <div class="card-footer flex award__title">
             <div>
