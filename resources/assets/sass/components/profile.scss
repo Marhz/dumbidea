@@ -1,0 +1,24 @@
+.profile {
+    &__awards {
+        border: 1px solid #ececec;
+        margin-bottom: 30px;
+        padding: 15px 15px;
+        background: #fafafa;
+    }
+    &__awards-info {
+        font-size: 1.3rem;
+    }
+    &__awards-image {
+        height: 200px;
+    }
+    &__avatar {
+        align-self: flex-start;
+    }
+    &__missing {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+    }
+}

@@ -5,14 +5,7 @@
     <div class="card-body p-0">
         <ul class="group-list p-0 mb-0">
             @foreach($awards as $award)
-                <a href="{{ $award->path() }}">
-                    <li class="group-list-item award__latest">
-                        <div class="award__latest-img">
-                            <async-img src="{{ $award->image }}" class="" />
-                        </div>
-                        <p class="award__latest-title">{{ $award->title }}</p>     
-                    </li>                
-                </a>
+                @include('awards._miniature', $award)
             @endforeach        
         </ul>
     </div>

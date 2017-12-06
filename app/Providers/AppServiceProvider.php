@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer('awards._latest', function($view) {
-            $awards = Award::latest()->take(5)->get();
+            $awards = Award::with('votes')->latest()->take(5)->get();
             $view->with('awards', $awards);
         });
     }

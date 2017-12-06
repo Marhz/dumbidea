@@ -17,6 +17,7 @@
 			@foreach ($awards as $award)
 				@include('awards._award', $award)
 			@endforeach
+			{{ $awards->links() }}
 		</div>
 	</div>
 </div>

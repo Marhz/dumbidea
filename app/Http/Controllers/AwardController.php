@@ -15,7 +15,7 @@ class AwardController extends Controller
      */
     public function index()
     {
-        $awards = Award::with('votes', 'owner', 'tags')->get();
+        $awards = Award::with('votes', 'owner', 'tags')->paginate();
         return view('awards.index', compact('awards'));
     }
 
@@ -59,6 +59,7 @@ class AwardController extends Controller
      */
     public function show(Award $award)
     {
+        $award->load('owner', 'votes', 'tags');
         return view('awards.show', compact('award'));
     }
 

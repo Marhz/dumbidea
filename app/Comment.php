@@ -10,14 +10,19 @@ class Comment extends Model
     use Voteable;
 
     protected $guarded = [];
-    protected $with = [
-        'author',
-    ];
+    // protected $with = [
+    //     'author',
+    // ];
     protected $appends = ['user_vote'];
 
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function award()
+    {
+        return $this->belongsTo(Award::class);
     }
 
     public function getContentAttribute()

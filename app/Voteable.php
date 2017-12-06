@@ -9,7 +9,7 @@ trait Voteable
 
     public function votes()
     {
-        return $this->morphToMany(User::class, 'vote', 'votes')->withPivot(['value']);
+        return $this->morphToMany(User::class, 'vote', 'votes')->select('id', 'votes.value');
     }
 
     public function getUserVoteAttribute()

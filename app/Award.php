@@ -50,4 +50,22 @@ class Award extends Model
     {
         return $this->attributes['path'] = $this->path();
     }
+
+    public function commentsCount()
+    {
+        return $this->hasOne(Comment::class)
+            ->selectRaw('award_id, count(*) as aggregate')
+            ->groupBy('award_id');
+    }
+    public function getCommentsCountAttribute()
+    {
+     // if relation is not loaded already, let's do it first
+        if (!array_key_exists('commentsCount', $this->relations))
+            $this->load('commentsCount');
+
+        $related = $this->getRelation('commentsCount');
+ 
+      // then return the count directly
+        return ($related) ? (int)$related->aggregate : 0;
+    }
 }

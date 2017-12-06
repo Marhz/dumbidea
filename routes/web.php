@@ -26,6 +26,8 @@ Route::post('api/awards/{award}/comments', 'CommentController@store')->name('com
 Route::patch('api/comments/{comment}/edit', 'CommentController@update')->name('comments.update');
 Route::delete('api/comments/{comment}/delete', 'CommentController@destroy')->name('comments.destroy');
 
+Route::get('profile/{user?}', 'ProfileController@show')->name('profile.show');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
