@@ -17,7 +17,7 @@ trait Voteable
         if (auth()->guest() || !$vote = $this->votes->where('id', auth()->id())->first()) {
             return $this->attributes['user_vote'] = null;
         }
-        return $this->attributes['user_vote'] = $vote->pivot->value == $this->upvoteValue;
+        return $this->attributes['user_vote'] = ($vote->value == $this->upvoteValue);
     }
 
     public function upvote()
@@ -33,7 +33,7 @@ trait Voteable
     protected function vote($value) {
         $vote = $this->votes()->where('user_id', auth()->id())->first();
         if ($vote) {
-            if ($vote->pivot->value == $value) {
+            if ($vote->value == $value) {
                 $this->votes()->detach(auth()->id());
             } else {
                 $this->votes()->updateExistingPivot(auth()->id(), ['value' => $value]);
@@ -46,12 +46,12 @@ trait Voteable
 
     public function totalUpvotes()
     {
-        return $this->votes->where('pivot.value', $this->upvoteValue)->count();        
+        return $this->votes->where('value', $this->upvoteValue)->count();        
     }
 
     public function totalDownvotes()
     {
-        return $this->votes->where('pivot.value', $this->downvoteValue)->count();
+        return $this->votes->where('value', $this->downvoteValue)->count();
     }
 
     public function totalVotes()

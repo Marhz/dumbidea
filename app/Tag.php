@@ -23,4 +23,12 @@ class Tag extends Model
     {
         return $this->belongsToMany(Award::class);
     }
+
+    public function toCache()
+    {
+        return [
+            'name' => $this->name,
+            'path' => $this->path()
+        ];
+    }
 }

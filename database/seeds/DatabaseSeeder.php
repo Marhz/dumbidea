@@ -5,6 +5,7 @@ use Psy\Command\WtfCommand;
 use App\Award;
 use App\Tag;
 use App\User;
+use App\PopularTags;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,6 +23,10 @@ class DatabaseSeeder extends Seeder
             $tagsNb = rand(2, 6);            
             $tags = Tag::inRandomOrder()->take($tagsNb)->get();
             $award->tags()->sync($tags);
+            $popularTags = new PopularTags();
+            $tags->each(function ($tag) use ($popularTags) {
+                $popularTags->push($tag);
+            });
             $nbComment = rand(0, 10);
             factory('App\Comment', rand(0, 10))->create(['award_id' => $award->id]);
         }

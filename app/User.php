@@ -55,11 +55,18 @@ class User extends Authenticatable
 
     public function nextAvailableAward()
     {
+        if ($this->lastAward == null)
+            return Carbon::now()->timestamp;
         return $this->lastAward->created_at->startOfDay()->addDay()->timestamp;
     }
 
     public function canPostAward()
     {
-        return ! $this->lastAward->wasCreatedToday();
+        return isset($this->lastAward) && ! $this->lastAward->wasCreatedToday();
+    }
+
+    public function isAdmin()
+    {
+        return $this->email === "test@mail.com";
     }
 }

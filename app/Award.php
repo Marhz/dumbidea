@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
+use App\PopularTags;
 
 class Award extends Model
 {
@@ -17,6 +20,15 @@ class Award extends Model
         'score'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+        static::created(function ($award) {
+            $key = app()->environment('testing') ? 'testing_awards_list' : 'awards_list';
+            Redis::lpush($key, json_encode($award->toCache()));
+        });
+    }
+
     public function path()
     {
         return route('awards.show', ['award' => $this->id]);
@@ -24,10 +36,12 @@ class Award extends Model
 
     public function syncTags($tags)
     {
+        $popularTags = new PopularTags();
         $tagsId = [];
         foreach ($tags as $tag) {
             $tag = Tag::firstOrCreate(['name' => $tag]);
             $tagsId[] = $tag->id;
+            $popularTags->push($tag);
         }
         $this->tags()->sync($tagsId);
     }
@@ -74,5 +88,19 @@ class Award extends Model
     {
         return Carbon::now()->lt($this->created_at->startOfDay()->addDay());
         // return $this->created_at->gt(Carbon::now()->subDay());
+    }
+
+    public function toCache()
+    {
+        return [
+            'title' => $this->title,
+            'image' => $this->image,
+            'path' => $this->path()
+        ];
+    }
+
+    public function getImageAttribute($image)
+    {
+        return $this->attributes['image'] = asset($image);
     }
 }

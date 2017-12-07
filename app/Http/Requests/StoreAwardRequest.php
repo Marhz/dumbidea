@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 use App\Exceptions\PostTooOftenException;
+use App\Award;
 
 class StoreAwardRequest extends FormRequest
 {

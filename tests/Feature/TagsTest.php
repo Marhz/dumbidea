@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Tag;
 use Illuminate\Http\UploadedFile;
+use App\PopularTags;
 
 class TagsTest extends TestCase
 {
@@ -80,5 +81,24 @@ class TagsTest extends TestCase
         $this->get(route('tag.show', ['tag' => $tag2->id]))
             ->assertDontSee($award->title . '</h4>')
             ->assertSee($otherAward->title . '</h4>');
+    }
+
+    /**
+     * @test
+     */
+    function popular_tags_get_updated()
+    {
+        $popularTags = new PopularTags();
+        $popularTags->reset();
+
+        $award = create('App\Award');
+        $award->syncTags(['tag1', 'tag2', 'tag3']);
+        $award = create('App\Award');
+        $award->syncTags(['tag1']);
+        
+        $tags = $popularTags->get();
+        $this->assertCount(3, $tags);
+        $this->assertEquals(2, $tags[0]->score);
+        $this->assertEquals(1, $tags[1]->score);
     }
 }

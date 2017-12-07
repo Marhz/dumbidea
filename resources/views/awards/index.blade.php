@@ -12,6 +12,7 @@
 		</div>
 		<div class="col-md-3 col-xs-12 order-md-2">
 			@include('tags._list')
+			@include('awards._trending')
 		</div>
 		<div class="col-md-6 col-xs-12 order-md-1">
 			@foreach ($awards as $award)

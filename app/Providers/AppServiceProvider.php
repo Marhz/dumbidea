@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use App\Tag;
 use Illuminate\Support\Facades\View;
 use App\Award;
+use Illuminate\Support\Facades\Redis;
+use App\PopularTags;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,12 +19,17 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('tags._list', function($view) {
-            $tags = Tag::withCount('awards')->orderBy('awards_count', 'desc')->take(6)->get();
+            $popularTags = new PopularTags();
+            $tags = $popularTags->get();
             $view->with('tags', $tags);
         });
-
         View::composer('awards._latest', function($view) {
-            $awards = Award::with('votes')->latest()->take(5)->get();
+            $awards = array_map('json_decode', Redis::lrange('awards_list', 0, 4));
+            $view->with('awards', $awards);
+        });
+        View::composer('awards._trending', function ($view) {
+            $trending = new \App\Trending();
+            $awards = $trending->get();
             $view->with('awards', $awards);
         });
     }

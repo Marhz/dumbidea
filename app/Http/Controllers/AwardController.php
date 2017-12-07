@@ -5,9 +5,14 @@ use App\Award;
 use Illuminate\Http\Request;
 use App\Tag;
 use App\Http\Requests\StoreAwardRequest;
+use App\Trending;
 
 class AwardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['create', 'store']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -53,9 +58,10 @@ class AwardController extends Controller
      * @param  \App\Award  $award
      * @return \Illuminate\Http\Response
      */
-    public function show(Award $award)
+    public function show(Award $award, Trending $trending)
     {
         $award->load('owner', 'votes', 'tags');
+        $trending->push($award);
         return view('awards.show', compact('award'));
     }
 
