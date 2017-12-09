@@ -1,4 +1,5 @@
 .comment {
+    position: relative;
     &__new {
         & > .img-container {
             align-self: flex-start;
@@ -29,5 +30,22 @@
     }
     &__footer {
         font-size: 1.15rem;
+    }
+    &-flash {
+        animation: flash 1s;
+        animation-iteration-count: 2;
+    }
+    @keyframes flash {
+        0% {
+            background: transparent;
+        }
+
+        50% {
+            background: rgba(244, 167, 73, .3);
+        }
+
+        100% {
+            background: transparent;
+        }
     }
 }

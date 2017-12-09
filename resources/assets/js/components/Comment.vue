@@ -1,17 +1,18 @@
 <template>
-    <div class="comment mb-3">
+    <div class="comment mb-3" :class="{'comment-flash': comment.focused }" :id="getHash">
         <div class="media">
             <div class="is64x64 d-flex mr-2">
-                <async-img src="http://via.placeholder.com/64x64" alt="User avatar"/>            
+                <async-img :src="comment.author.avatar" alt="User avatar"/>            
             </div>
             <div class="media-body">
                 <p class="comment__author mb-0">
                     <a href="" v-text="comment.author.name" class="mr-1"></a>
-                    {{ ago }}
+                    <span class="mr-1">{{ ago }}</span>
+                    <span>{{ score }}points</span>
                 </p>
                 <hr class="mb-1 mt-1">
                 <textarea class="form-control mb-1" v-model="edit" rows="3" v-if="editing"></textarea>
-                <p v-html="content" class="comment__content mb-1" v-else></p>
+                <p v-text="content" class="comment__content mb-1" v-else></p>
                 <div class="comment__footer">
                     <i class="fa fa-arrow-up mr-1" @click="upvote" :class="upvoteBtnClass"></i>
                     <i class="fa fa-arrow-down mr-1" @click="downvote" :class="downvoteBtnClass"></i>
@@ -36,6 +37,7 @@ export default {
     mixins: [Vote],
     data() {
         return {
+            score: this.comment.score,
             content: this.comment.content,
             edit: this.comment.content,
             editing: false,
@@ -79,8 +81,15 @@ export default {
         },
         downvoteBtnClass() {
             return this.downvoted ? 'downvoted' : '';
+        },
+        getHash() {
+            return "comment-" + this.comment.id;
         }
-
+    },
+    mounted() {
+        if (this.comment.focused) {
+            this.$el.scrollIntoView();
+        }
     }
 };
 </script>

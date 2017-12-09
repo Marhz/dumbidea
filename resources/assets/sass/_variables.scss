@@ -24,3 +24,20 @@ $text-color: #636b6f;
 // Inputs
 $input-border-color: lighten($text-color, 40%);
 $input-placeholder-color: lighten($text-color, 30%);
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
+
+@function grid-breakpoints($key) {
+  @if map-has-key($grid-breakpoints, $key) {
+    @return map-get($grid-breakpoints, $key);
+  }
+
+  @warn "Unknown `#{$key}`.";
+  @return null;
+}

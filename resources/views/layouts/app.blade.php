@@ -14,7 +14,13 @@
 	<!-- Styles -->
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" async defer>
-	<style>
+	<script>
+        window.App = {!! json_encode([
+            'user' => auth()->user(),
+            'guest' => auth()->guest()
+        ]) !!}
+    </script>
+    <style>
 		[v-cloak] {
 			display: none;
 		}
@@ -43,13 +49,13 @@
                             </li>
 						@else                         
                             @can('create', App\Award::class)
-                                <li class="nav-item">
+                                <li class="nav-item flex">
                                     <a href="{{ route('awards.create') }}">
                                         <button class="btn btn-success">New award</button>
                                     </a>
                                 </li>
                             @else
-                                <v-countdown v-cloak inline-template class="nav-item" timestamp="{{ auth()->user()->nextAvailableAward() * 1000 }}">
+                                <v-countdown v-cloak inline-template class="nav-item flex" timestamp="{{ auth()->user()->nextAvailableAward() * 1000 }}">
                                     <div class="flex">
                                         <div v-if="!done" class="countdown">
                                             @{{ format(remaining.hours) }}:@{{ format(remaining.minutes) }}:@{{ format(remaining.seconds) }}
@@ -61,7 +67,10 @@
                                 </v-countdown>
                         @endif
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="nav-link dropdown-toggle flex justify-content-start" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="is32x32 mr-2">
+                                        <async-img src="{{ auth()->user()->avatar }}"></async-img>
+                                    </div>
                                     {{ Auth::user()->name }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
@@ -80,17 +89,8 @@
 				</div>
 			</div>
 		</nav>
-        @if(session()->has('flash'))
-            <div class="container">
-                <div class="alert alert-{{ session('flash')['level'] }} alert-dismissible fade show" role="alert">
-                    {{ session('flash')['message'] }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
-        @endif
 		@yield('content')
+        <flash-messages :message="{{ json_encode(session('flash')) }}"></flash-messages>
 	</div>
 
 	<!-- Scripts -->

@@ -15,7 +15,7 @@ class CommentController extends Controller
 
     public function index($awardId)
     {
-        $comments = Comment::with('author')->where('award_id', $awardId)->get();
+        $comments = Comment::with('author', 'votes')->where('award_id', $awardId)->get();
         return $comments;
     }
 

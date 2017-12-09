@@ -35,14 +35,22 @@
 			if(href) {
 				this.selectTab(href);
 			} else {
-                this.tabs[0].isActive = true;
-            }
+				let active = this.tabs.find(tab => tab.isActive);
+				if (!active) {
+					this.tabs[0].isActive = true;
+				}
+			}
+			window.addEventListener('hashchange', () => {
+				if (window.location.hash !== '')
+					this.selectTab(window.location.hash);
+			});
 		},
 		methods: {
 			selectTab(href) {
 				this.tabs.forEach(tab => {
 					tab.isActive = (tab.href == href);
 				});
+				
 			}
 		},
 	}

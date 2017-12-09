@@ -13,7 +13,7 @@ class Comment extends Model
     // protected $with = [
     //     'author',
     // ];
-    protected $appends = ['user_vote'];
+    protected $appends = ['', 'score'];
 
     public function author()
     {
@@ -28,5 +28,10 @@ class Comment extends Model
     public function getContentAttribute()
     {
         return $this->attributes['content'] = nl2br($this->attributes['content']);;
+    }
+
+    public function path()
+    {
+        return $this->award->path() . "comment-". $this->id;
     }
 }

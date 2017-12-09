@@ -4,23 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Lang;
 
 class ProfileController extends Controller
 {
     public function show($user = null)
     {
         if ($user === null && auth()->guest())
-            abort(403);
+            return redirect('login')->with('flash', [
+                'message' => Lang::get('redirect.login'), 
+                'level' => 'warning'
+            ]);
         $user = ($user === null) ? auth()->user() : User::findOrFail($user);
-        $user->load(['awards.votes', 'awards.commentsCount', 'awardsVotes' => function ($query) {
-            return $query->where('value', 1);
-        }, 'comments.award', 'comments.votes']);
-        return view('profile.show', [
-            'user' => $user,
-            'awards' => $user->awards,
-            'comments' => $user->comments,
-            'awardsVotes' => $user->awardsVotes,
-            'commentsVotes' => $user->commentsVotes
-        ]);
+        $awards = $user->awards()->with(['votes', 'commentsCount'])->paginate(null, ['*'], 'awardsPage');
+        $comments = $user->comments()->with('award', 'votes')->paginate(null, ['*'], 'commentsPage');
+        $awardsVotes = $user->awardsVotes()->where('value', 1)->paginate(null, ['*'], 'upvotesPage');
+        return view('profile.show', compact(
+            'user',
+            'awards',
+            'comments',
+            'awardsVotes'
+        ));
     }
 }

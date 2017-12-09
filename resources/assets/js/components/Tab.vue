@@ -6,7 +6,10 @@
 	export default {
 		props: {
 			name: {required: true},
-			selected: {default: false}
+			selected: {
+				type: Boolean,
+				default: false
+			}
 		},
 		data() {
 			return {
@@ -19,7 +22,7 @@
 			}
 		},
 		mounted() {
-			this.isActive = (this.selected == "true");
+			this.isActive = (this.selected );
 		}
 	}
 </script>

@@ -75,12 +75,12 @@ class TagsTest extends TestCase
         $otherAward->syncTags([$tag1->name, $tag2->name]);
 
         $this->get(route('tag.show', ['tag' => $tag1->id]))
-            ->assertSee($award->title . '</h4>')
-            ->assertSee($otherAward->title . '</h4>');
+            ->assertSee($award->title . '</strong>')
+            ->assertSee($otherAward->title . '</strong>');
 
         $this->get(route('tag.show', ['tag' => $tag2->id]))
-            ->assertDontSee($award->title . '</h4>')
-            ->assertSee($otherAward->title . '</h4>');
+            ->assertDontSee($award->title . '</strong>')
+            ->assertSee($otherAward->title . '</strong>');
     }
 
     /**
