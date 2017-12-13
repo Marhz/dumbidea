@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Comment;
 use App\Award;
+use App\Trending;
 
 class CommentController extends Controller
 {
@@ -19,7 +20,7 @@ class CommentController extends Controller
         return $comments;
     }
 
-    public function store(Request $request, Award $award)
+    public function store(Request $request, Award $award, Trending $trending)
     {
         $request->validate([
             'content' => ['required']
@@ -29,6 +30,7 @@ class CommentController extends Controller
             'user_id' => auth()->id(),
             'award_id' => $award->id
         ]);
+        $trending->push($award, Trending::COMMENT_VALUE);
         $comment->author = auth()->user();
         return $comment;
     }

@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('tags._list', function($view) {
             $popularTags = new PopularTags();
-            $tags = $popularTags->get();
+            $tags = $popularTags->getWithScores();
             $view->with('tags', $tags);
         });
         View::composer('awards._latest', function($view) {

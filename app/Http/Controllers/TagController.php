@@ -10,8 +10,7 @@ class TagController extends Controller
 {
     public function show(Request $request, Tag $tag)
     {
-        $awards = Award::with('owner','tags', 'votes')
-            ->whereIn('id', $tag->awards->pluck('id'))
+        $awards = $tag->awards()->with('owner','tags', 'votes')
             ->paginate();
         return view('awards.index', [
             'tag' => $tag,

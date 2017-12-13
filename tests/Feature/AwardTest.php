@@ -24,20 +24,7 @@ class AwardTest extends TestCase
         $awards = array_map('json_decode', Redis::lrange('testing_awards_list', 0, 4));
         $this->assertCount(1, $awards);
     }
-
-    /**
-     * @test
-     */
-    function it_updates_the_trending_list_when_an_award_is_visited()
-    {
-        $award = create('App\Award');
-        $trending = new Trending();
-        $trending->reset();
-        $this->assertCount(0, $trending->get());
-        $this->get($award->path());
-        $this->assertCount(1, $trending->get());
-    }
-
+    
     /**
      * @test
      */

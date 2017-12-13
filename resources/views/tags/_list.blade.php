@@ -7,7 +7,7 @@
             @foreach($tags as $tag)
                 <li class="tag-list justify-content-between">
                     <a href="{{ $tag->path }}" class="badge badge-info tag">{{ $tag->name }}</a>
-                    <span class="badge-pill badge-warning tag-count">{{ $tag->score }}</span>
+                    <span class="badge-pill badge-warning tag-count">{{ $tag->_score }}</span>
                 </li>
             @endforeach            
         </ul>

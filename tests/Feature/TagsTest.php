@@ -96,9 +96,9 @@ class TagsTest extends TestCase
         $award = create('App\Award');
         $award->syncTags(['tag1']);
         
-        $tags = $popularTags->get();
+        $tags = $popularTags->getWithScores();
         $this->assertCount(3, $tags);
-        $this->assertEquals(2, $tags[0]->score);
-        $this->assertEquals(1, $tags[1]->score);
+        $this->assertEquals(2, $tags[0]->_score);
+        $this->assertEquals(1, $tags[1]->_score);
     }
 }
