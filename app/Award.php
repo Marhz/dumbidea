@@ -43,7 +43,7 @@ class Award extends Model
             $tagsId[] = $tag->id;
             $popularTags->push($tag);
         }
-        $this->tags()->sync($tagsId);
+        $this->tags()->attach($tagsId);
     }
 
     public function owner()
@@ -94,13 +94,18 @@ class Award extends Model
     {
         return [
             'title' => $this->title,
-            'image' => $this->image,
+            'image' => $this->getThumbnail(),
             'path' => $this->path()
         ];
     }
 
     public function getImageAttribute($image)
     {
-        return $this->attributes['image'] = asset($image);
+        return asset($image);
+    }
+
+    public function getThumbnail()
+    {
+        return preg_replace('/\/(\w+)(\.\w+$)/', '/${1}_thumbnail${2}', $this->image);
     }
 }

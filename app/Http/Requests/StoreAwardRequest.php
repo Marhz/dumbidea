@@ -33,7 +33,12 @@ class StoreAwardRequest extends FormRequest
     {
         return [
             'title' => ['max:100', 'required'],
-            'image' => ['image', 'required']
+            'image' => [
+                'image',
+                'required',
+                'max:5000',
+            ],
+            'tags' => ['array', 'required']
         ];
     }
 }

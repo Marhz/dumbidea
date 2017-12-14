@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Tag;
 use App\Http\Requests\StoreAwardRequest;
 use App\Trending;
+use Intervention\Image\Facades\Image;
 
 class AwardController extends Controller
 {
@@ -43,9 +44,10 @@ class AwardController extends Controller
      */
     public function store(StoreAwardRequest $request)
     {
+        $image = $this->makeImage();
         $award = Award::create([
             'title' => request('title'),
-            'image' => request()->file('image')->store('awards', 'public'),
+            'image' => $image,
             'user_id' => auth()->id()
         ]);
         $award->syncTags($request->get('tags'));
@@ -97,5 +99,16 @@ class AwardController extends Controller
     public function destroy(Award $award)
     {
         //
+    }
+
+    protected function makeImage()
+    {
+        $image = Image::make(request()->file('image'));
+        $path = 'storage/awards/';
+        $ext = '.' . request()->file('image')->getClientOriginalExtension();
+        $hash = md5($image->__toString() . time());
+        $image->save($path . $hash . $ext);
+        $image->fit(260, 200)->save($path . $hash . '_thumbnail' . $ext);
+        return $path . $hash . $ext;
     }
 }
