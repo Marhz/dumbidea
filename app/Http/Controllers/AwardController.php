@@ -50,7 +50,7 @@ class AwardController extends Controller
             'image' => $image,
             'user_id' => auth()->id()
         ]);
-        $award->syncTags($request->get('tags'));
+        $award->syncTags($request->get('tags') ?? []);
         return redirect(route('awards.show', ['id' => $award->id]));
     }
 
@@ -104,11 +104,13 @@ class AwardController extends Controller
     protected function makeImage()
     {
         $image = Image::make(request()->file('image'));
-        $path = 'storage/awards/';
+        $path = '/home/georges/sites/dumbidea/public/storage/awards/';
+        $path = storage_path('app/public/awards/');
         $ext = '.' . request()->file('image')->getClientOriginalExtension();
-        $hash = md5($image->__toString() . time());
-        $image->save($path . $hash . $ext);
+        $hash = md5($image . time());
+        $fullPath = $path . $hash . $ext;
+        $image->save($fullPath);
         $image->fit(260, 200)->save($path . $hash . '_thumbnail' . $ext);
-        return $path . $hash . $ext;
+        return 'storage/awards/' . $hash . $ext;
     }
 }

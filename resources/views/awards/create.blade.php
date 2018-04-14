@@ -6,7 +6,6 @@
 		<div class="card-header">
 			<h4>Create your award</h4>
 		</div>
-		{{ dump($errors) }}
 		<div class="card-body">
 			<form action="{{ route('awards.store') }}" method="POST" enctype='multipart/form-data'>
 				{{ csrf_field() }}

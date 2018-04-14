@@ -1,12 +1,13 @@
 <?php
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Tag;
-use Illuminate\Http\UploadedFile;
+use Tests\TestCase;
 use App\PopularTags;
+use Illuminate\Http\UploadedFile;
+use Intervention\Image\Facades\Image;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class TagsTest extends TestCase
 {
@@ -17,6 +18,7 @@ class TagsTest extends TestCase
         parent::setUp();
         $this->signIn();
         $this->withoutExceptionHandling();
+        $this->fakeImage();
     }
 
     /**
@@ -24,8 +26,7 @@ class TagsTest extends TestCase
      */
     function it_creates_given_tags()
     {
-        $award = make('App\Award')->toArray();
-        $award['image'] = UploadedFile::fake()->image('image.jpg');
+        $award = $this->makeAward();
         $award['tags'] = ['tag1', 'tag2'];
         $response = $this->post(route('awards.store'), $award)
             ->assertStatus(302);
@@ -38,8 +39,7 @@ class TagsTest extends TestCase
     function it_only_creates_new_tags()
     {
         create('App\Tag', ['name' => 'tag1', 'slug' => 'tag1']);
-        $award = make('App\Award')->toArray();
-        $award['image'] = UploadedFile::fake()->image('image.jpg');
+        $award = $this->makeAward();
         $award['tags'] = ['tag1', 'tag2'];
         $response = $this->post(route('awards.store'), $award)
             ->assertStatus(302);
@@ -52,8 +52,7 @@ class TagsTest extends TestCase
     function it_ignores_duplicate_tags()
     {
         create('App\Tag', ['name' => 'tag1', 'slug' => 'tag1']);
-        $award = make('App\Award')->toArray();
-        $award['image'] = UploadedFile::fake()->image('image.jpg');
+        $award = $this->makeAward();
         $award['tags'] = ['tag1', 'tag2', 'tag2'];
         $response = $this->post(route('awards.store'), $award)
             ->assertStatus(302);

@@ -74,20 +74,17 @@ class Award extends Model
     }
     public function getCommentsCountAttribute()
     {
-     // if relation is not loaded already, let's do it first
         if (!array_key_exists('commentsCount', $this->relations))
             $this->load('commentsCount');
 
         $related = $this->getRelation('commentsCount');
  
-      // then return the count directly
         return ($related) ? (int)$related->aggregate : 0;
     }
 
     public function wasCreatedToday()
     {
         return Carbon::now()->lt($this->created_at->startOfDay()->addDay());
-        // return $this->created_at->gt(Carbon::now()->subDay());
     }
 
     public function toCache()
