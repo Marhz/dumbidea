@@ -36,7 +36,7 @@ class CommentsTest extends TestCase
         $award = create('App\Award');
         $comment = make('App\Comment')->toArray();
         $this->postJson(route('comments.post', ['awardId' => $award->id]), $comment)
-            ->assertStatus(200);
+            ->assertStatus(201);
         $this->assertEquals(1, $award->fresh()->comments()->count());
     }
 

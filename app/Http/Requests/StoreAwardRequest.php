@@ -38,7 +38,7 @@ class StoreAwardRequest extends FormRequest
                 'required',
                 'max:5000',
             ],
-            'tags' => ['array', 'required']
+            'tags' => ['array']
         ];
     }
 }

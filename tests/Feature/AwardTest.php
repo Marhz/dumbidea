@@ -19,6 +19,7 @@ class AwardTest extends TestCase
     {
         $this->signIn();
         Redis::del('testing_awards_list');
+        $this->withoutExceptionHandling();
         $award = $this->makeAward();
         $this->post(route('awards.store'), $award);
         $awards = array_map('json_decode', Redis::lrange('testing_awards_list', 0, 4));

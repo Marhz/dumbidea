@@ -43,7 +43,7 @@ class Award extends Model
             $tagsId[] = $tag->id;
             $popularTags->push($tag);
         }
-        $this->tags()->attach($tagsId);
+        $this->tags()->sync($tagsId);
     }
 
     public function owner()
