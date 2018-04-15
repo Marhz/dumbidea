@@ -32,3 +32,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('auth/facebook', 'Auth\FacebookLoginController@redirectToProvider')->name('auth.facebook');
+Route::get('auth/facebook/callback', 'Auth\FacebookLoginController@handleCallback');
+
+Route::get('auth/twitter', 'Auth\TwitterLoginController@redirectToProvider')->name('auth.twitter');
+Route::get('auth/twitter/callback', 'Auth\TwitterLoginController@handleCallback');
