@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     protected $guarded = [];
+    protected $appends = [
+      'path'  
+    ];
+    
     public static function boot()
     {
         parent::boot();
@@ -14,7 +18,7 @@ class Tag extends Model
             $tag->slug = $tag->name;
         });
     }
-    public function path()
+    public function getPathAttribute()
     {
         return route("tag.show", ['tag' => $this->id]);
     }

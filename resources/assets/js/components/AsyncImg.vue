@@ -17,8 +17,12 @@
             img.onload = () => {
                 this.url = this.src;
                 this.loaded = true;
+                this.$nextTick(() => {
+                    this.$emit('imgLoaded');  
+                    
+                });
             }
-            img.src = this.src;    
+            img.src = this.src;
         }
     }
 </script>
