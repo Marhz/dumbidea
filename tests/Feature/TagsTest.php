@@ -67,19 +67,19 @@ class TagsTest extends TestCase
         $tag1 = create('App\Tag', ['name' => 'tag1', 'slug' => 'tag1']);
         $tag2 = create('App\Tag', ['name' => 'tag2', 'slug' => 'tag2']);
         
-        $award = create('App\Award');
-        $otherAward = create('App\Award');
+        $award = create('App\Award', ['title' => 'find me!']);
+        $otherAward = create('App\Award', ['title' => 'leave it alone']);
         
         $award->syncTags([$tag1->name]);
         $otherAward->syncTags([$tag1->name, $tag2->name]);
 
         $this->get(route('tag.show', ['tag' => $tag1->id]))
-            ->assertSee($award->title . '</strong>')
-            ->assertSee($otherAward->title . '</strong>');
+            ->assertSee($award->title)
+            ->assertSee($otherAward->title);
 
         $this->get(route('tag.show', ['tag' => $tag2->id]))
-            ->assertDontSee($award->title . '</strong>')
-            ->assertSee($otherAward->title . '</strong>');
+            ->assertDontSee($award->title)
+            ->assertSee($otherAward->title);
     }
 
     /**

@@ -11,16 +11,16 @@
     },
     "devDependencies": {
         "axios": "^0.17",
-        "bootstrap": "^4.0.0-beta.2",
-        "cross-env": "^5.1",
-        "jquery": "^3.2",
-        "laravel-mix": "^1.0",
-        "lodash": "^4.17.4",
-        "popper.js": "^1.12.6",
-        "vue": "^2.1.10"
+        "bootstrap": "^4.1.0",
+        "cross-env": "^5.1.4",
+        "jquery": "^3.3.1",
+        "laravel-mix": "^1.7.2",
+        "lodash": "^4.17.5",
+        "popper.js": "^1.14.3",
+        "vue": "^2.5.16"
     },
     "dependencies": {
-        "moment": "^2.19.3",
-        "vue-multiselect": "^2.0.8"
+        "moment": "^2.22.1",
+        "vue-multiselect": "^2.1.0"
     }
 }

@@ -37,3 +37,7 @@ Route::get('auth/facebook/callback', 'Auth\FacebookLoginController@handleCallbac
 
 Route::get('auth/twitter', 'Auth\TwitterLoginController@redirectToProvider')->name('auth.twitter');
 Route::get('auth/twitter/callback', 'Auth\TwitterLoginController@handleCallback');
+
+Route::get('user-policy', function() {
+    return '<h1>LOL</h1>';
+});

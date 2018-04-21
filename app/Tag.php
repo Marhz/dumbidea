@@ -20,9 +20,13 @@ class Tag extends Model
     }
     public function getPathAttribute()
     {
+        return $this->path();
+    }
+    public function path()
+    {
         return route("tag.show", ['tag' => $this->id]);
     }
-
+    
     public function awards()
     {
         return $this->belongsToMany(Award::class);
