@@ -76,7 +76,7 @@ trait Voteable
         return \DB::table((new self)->getTable())->select(\DB::raw('SUM(votes.value) as score, id' . $columns))
             ->join('votes','votes.vote_id', '=', 'id')
             ->whereRaw("votes.vote_type = '" . preg_replace('#\\\#', '\\\\\\', self::class) . "'")
-            ->groupBy('id')
+            ->groupBy('id' . $columns)
             ->orderBy('score', 'desc');
     }
 }   
