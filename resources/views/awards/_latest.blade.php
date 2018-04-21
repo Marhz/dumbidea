@@ -4,7 +4,7 @@
     </div>
     <div class="card-body p-0">
         @foreach($awards as $award)
-            <p>Score : {{ $award->score }}</p>
+            <p>Score : {{ $award->db_score }}</p>
             @include('awards._miniature', ['award' => $award])
         @endforeach        
     </div>

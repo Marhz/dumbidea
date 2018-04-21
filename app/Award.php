@@ -92,7 +92,8 @@ class Award extends Model
         return [
             'title' => $this->title,
             'image' => $this->getThumbnail(),
-            'path' => $this->path()
+            'path' => $this->path(),
+            'db_score' => $this->db_score
         ];
     }
 

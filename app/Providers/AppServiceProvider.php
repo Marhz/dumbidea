@@ -26,14 +26,16 @@ class AppServiceProvider extends ServiceProvider
         });
         View::composer('awards._latest', function($view) {
             $awards = Cache::remember('awards_top', 5, function() {
-                return Award::fetchByScore(['title', 'image'])
+                $list =  Award::fetchByScore(['title', 'image'])
                     ->limit(5)
                     ->get()
                     ->map(function ($award) {
-                        return new Award((array) $award);
+                        return (new Award((array) $award))->toCache();
                     });
+                    return $list;
+            })->map(function ($item) {
+                return (object) $item;
             });
-            // $awards = array_map('json_decode', Redis::lrange('awards_list', 0, 4));
             $view->with('awards', $awards);
         });
         View::composer('awards._trending', function ($view) {
