@@ -42,4 +42,18 @@ class AwardTest extends TestCase
         $this->post(route('awards.store', $award))
             ->assertStatus(302);
     }
+    
+    /**
+     * @test
+     */
+    function it_gets_the_award_with_the_best_score()
+    {
+        create('App\Award', [], 10);
+        for($i = 0; $i < 5; $i++) {
+            $this->signIn();
+            Award::first()->upvote();
+        }
+        dump($this->get('test'));
+        $this->assertTrue(true);
+    }
 }

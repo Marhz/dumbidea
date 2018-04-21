@@ -2,12 +2,13 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Tag;
-use Illuminate\Support\Facades\View;
 use App\Award;
-use Illuminate\Support\Facades\Redis;
 use App\PopularTags;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,7 +25,15 @@ class AppServiceProvider extends ServiceProvider
             $view->with('tags', $tags);
         });
         View::composer('awards._latest', function($view) {
-            $awards = array_map('json_decode', Redis::lrange('awards_list', 0, 4));
+            $awards = Cache::remember('awards_top', 5, function() {
+                return Award::fetchByScore(['title', 'image'])
+                    ->limit(5)
+                    ->get()
+                    ->map(function ($award) {
+                        return new Award((array) $award);
+                    });
+            });
+            // $awards = array_map('json_decode', Redis::lrange('awards_list', 0, 4));
             $view->with('awards', $awards);
         });
         View::composer('awards._trending', function ($view) {

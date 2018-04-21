@@ -21,7 +21,7 @@ class AwardController extends Controller
      */
     public function index()
     {
-        $awards = Award::with('votes', 'owner', 'tags')->paginate();
+        $awards = Award::with('votes', 'owner', 'tags')->latest()->paginate();
         return view('awards.index', compact('awards'));
     }
 
