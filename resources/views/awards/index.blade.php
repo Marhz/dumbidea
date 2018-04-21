@@ -8,7 +8,7 @@
 	@endif
 	<div class="row justify-content-md-center">
 		<div class="col-md-3 d-none d-md-flex">
-			@include('awards._latest')
+			{{-- @include('awards._latest') --}}
 		</div>
 		<div class="col-md-3 col-xs-12 order-md-2">
 			@include('tags._list')

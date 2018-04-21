@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use App\Exceptions\AlreadyExistingProviderException;
 
 abstract class ProviderLoginController extends Controller
 {
@@ -37,8 +38,8 @@ abstract class ProviderLoginController extends Controller
             $user->provider = $this->provider;
             $user->provider_id = $socialiteUser->id;
             $user->save();
-        } else if ($user = User::where('email', $socialiteUser->email)) {
-            return redirect('/login')->with(['flash' => 'You are already registered with another provider']);
+        } else if ($user = User::where('email', $socialiteUser->email)->first()) {
+            throw new AlreadyExistingProviderException;
         } else {
             $user = User::firstOrCreate(
                 ['provider' => $this->provider, 'provider_id' => $socialiteUser->id],
