@@ -72,11 +72,11 @@ trait Voteable
     
     public static function fetchByScore($columns = [])
     {
-        $columns = sizeof($columns) === 0 ? '' : ', ' . implode(', ', $columns);
-        return \DB::table((new self)->getTable())->select(\DB::raw('SUM(votes.value) as score, id' . $columns))
+        $c = sizeof($columns) === 0 ? '' : ', ' . implode(', ', $columns);
+        return \DB::table((new self)->getTable())->select(\DB::raw('SUM(votes.value) as score, id' . $c))
             ->join('votes','votes.vote_id', '=', 'id')
             ->whereRaw("votes.vote_type = '" . preg_replace('#\\\#', '\\\\\\', self::class) . "'")
-            ->groupBy('id' . $columns)
+            ->groupBy('id', ...$columns)
             ->orderBy('score', 'desc');
     }
 }   
