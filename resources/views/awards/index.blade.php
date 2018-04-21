@@ -8,7 +8,7 @@
 	@endif
 	<div class="row justify-content-md-center">
 		<div class="col-md-3 d-none d-md-flex">
-			{{-- @include('awards._latest') --}}
+			@include('awards._latest')
 		</div>
 		<div class="col-md-3 col-xs-12 order-md-2">
 			@include('tags._list')
@@ -16,7 +16,7 @@
 		</div>
 		<div class="col-md-6 col-xs-12 order-md-1">
 			@foreach ($awards as $award)
-				@include('awards._award', $award)
+				<v-award :award="{{ $award->toJson() }}" is-in-list="{{ true }}"></v-award>
 			@endforeach
 			{{ $awards->links() }}
 		</div>

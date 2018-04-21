@@ -13,7 +13,9 @@
                 <button class="btn" :class="downvoteBtnClass" @click="downvote"><i class="fa fa-arrow-down"></i></button>
             </div>
         </div>
-        <award-overlay :imgSrc="award.image" :alt="award.title" ref="awardOverlay"></award-overlay>
+        <a :href="linkTarget">
+            <award-overlay :imgSrc="award.image" :alt="award.title" ref="awardOverlay"></award-overlay>
+        </a>
         <div class="card-footer flex award__title">
             <div>
                 <em class="h5" v-cloak>Score: {{ score }}</em>
@@ -43,7 +45,7 @@ import AwardOverlay from './AwardOverlay.vue';
 
 export default {
     components: { AwardOverlay },
-    props: ['award'],
+    props: ['award', 'is-in-list'],
     mixins: [Vote],
     data() {
         return {
@@ -75,6 +77,9 @@ export default {
         downvoteBtnClass() {
             return this.downvoted ? 'btn-danger' : '';
         },
+        linkTarget() {
+            return this.isInList ? this.award.path : this.award.image
+        }
     }
 }
 </script>
