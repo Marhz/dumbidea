@@ -27,12 +27,12 @@ abstract class ProviderLoginController extends Controller
                 ->with(['flash' => "There was a problem while logging you with {$this->provider}, please try again"]);
         }
         $this->loginUser($socialiteUser);
-        return redirect('/dashboard');
+        return redirect('/');
     }
 
     protected function loginUser($socialiteUser)
     {
-        dd($socialiteUser);
+        // dd($socialiteUser);
         if ($user = User::whereNull('provider_id')->where('email', $socialiteUser->email)->first()) {
             $user->provider = $this->provider;
             $user->provider_id = $socialiteUser->id;
