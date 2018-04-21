@@ -37,12 +37,14 @@ abstract class ProviderLoginController extends Controller
             $user->provider = $this->provider;
             $user->provider_id = $socialiteUser->id;
             $user->save();
+        } else if ($user = User::where('email', $socialiteUser->email)) {
+            return redirect('/login')->with(['flash' => 'You are already registered with another provider']);
         } else {
             $user = User::firstOrCreate(
                 ['provider' => $this->provider, 'provider_id' => $socialiteUser->id],
                 [
                     'email' => $socialiteUser->email,
-                    'name' => $socialiteUser->nickname,
+                    'name' => $socialiteUser->nickname ?? $socialiteUser->name,
                     'provider' => $this->provider,
                     'provider_id' => $socialiteUser->id
                 ]
