@@ -24,3 +24,26 @@ a {
 a:hover {
     text-decoration: none;
 }
+
+.pagination {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.login-btn {
+    padding: 10px 20px;
+    background: red;    
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    
+}
+
+.fb {
+    background: #3b5998;
+}
+
+.twitter {
+    background: #1dcaff;
+}

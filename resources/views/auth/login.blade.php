@@ -74,6 +74,7 @@
                             </div>
                         </div>
                     </form>
+                    @include('auth._social') 
                 </div>
             </div>
         </div>

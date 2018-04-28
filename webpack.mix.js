@@ -17,9 +17,3 @@ mix
     .js('resources/assets/js/app.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css')
     .sourceMaps();
-    // .then((stats) => {
-    //     // var data = JSON.stringify(
-    //     //     stats.toJson()
-    //     // );
-    //     // fs.writeFile('./stats.json', data)
-    // });

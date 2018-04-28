@@ -93,12 +93,7 @@
                             </div>
                         </div>
                     </form>
-                    <a href="{{ route('auth.facebook') }}">
-                        <button>Facebook</button>
-                    </a>
-                    <a href="{{ route('auth.twitter') }}">
-                        <button>Twitter</button>
-                    </a>
+                    @include('auth._social') 
                 </div>
             </div>
         </div>
