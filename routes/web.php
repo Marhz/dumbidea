@@ -41,11 +41,3 @@ Route::get('auth/twitter/callback', 'Auth\TwitterLoginController@handleCallback'
 Route::get('user-policy', function() {
     return '<h1>LOL</h1>';
 });
-
-Route::get('test', function() {
-    
-    dump(App\Award::fetchByScore(['title'])->map(function($m) { 
-        // dump($m->path);
-    }));
-    return view('welcome');
-});

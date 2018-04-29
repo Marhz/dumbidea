@@ -28,6 +28,16 @@ a:hover {
 .pagination {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    @media screen and (min-width: grid-breakpoints(md)) {
+        font-size: 1.8rem;   
+    }
+}
+
+.page-link {
+    @media screen and (min-width: grid-breakpoints(md)) {
+        padding: 10px 20px;
+    }
 }
 
 .login-btn {
@@ -37,7 +47,17 @@ a:hover {
     color: white;
     font-size: 1rem;
     font-weight: 600;
-    
+    @media screen and (max-width: grid-breakpoints(md)) {
+        width: 100%;
+        margin-bottom: .75rem;
+    }
+}
+
+.social-container {
+
+    @media screen and (max-width: grid-breakpoints(md)) {
+        flex-direction: column;
+    }
 }
 
 .fb {
@@ -46,4 +66,9 @@ a:hover {
 
 .twitter {
     background: #1dcaff;
+}
+
+
+.container {
+    max-width: 1500px;
 }

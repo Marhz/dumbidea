@@ -53,7 +53,6 @@ class AwardTest extends TestCase
             $this->signIn();
             Award::first()->upvote();
         }
-        dump($this->get('test'));
         $this->assertTrue(true);
     }
 }

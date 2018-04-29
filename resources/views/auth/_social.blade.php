@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-around">
+<div class="d-flex justify-content-around social-container">
     <a href="{{ route('auth.facebook') }}">
         <div class="login-btn fb">
             <i class="fa fa-facebook fa-lg mr-3"></i>

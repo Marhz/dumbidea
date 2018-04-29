@@ -15,7 +15,8 @@
 
 .award__latest {
 	// position: relative;
-
+	// background: blue;
+	// border: 1px solid red;
 	&-img {
 		height: 200px;
 		width: 100%;
@@ -24,6 +25,7 @@
 		margin: 5px 0 15px 0;
 	}
 	&-list {
-		border: none;
+		// padding: 10px;
+		// border: none;
 	}
 }
