@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\File;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,4 +42,11 @@ Route::get('auth/twitter/callback', 'Auth\TwitterLoginController@handleCallback'
 
 Route::get('user-policy', function() {
     return '<h1>LOL</h1>';
+});
+
+Route::get('moar', function() {
+    return collect(File::allFiles(storage_path('app/public/moar/')))->map(function($file) {
+        return url('storage/moar/' . $file->getRelativePathname());
+    });
+    
 });

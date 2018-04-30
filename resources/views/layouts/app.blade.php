@@ -51,7 +51,7 @@
                             @can('create', App\Award::class)
                                 <li class="nav-item flex">
                                     <a href="{{ route('awards.create') }}">
-                                        <button class="btn btn-success">New award</button>
+                                        <button class="btn btn-success">Balance ton Shneizel !</button>
                                     </a>
                                 </li>
                             @else

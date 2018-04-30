@@ -47,3 +47,10 @@ window.events = new Vue();
 window.flash = function (message, level = 'success') {
     window.events.$emit('flash', { message, level });
 }
+
+window.App = {};
+window.App.moar = [];
+axios.get('/moar')
+    .then(({ data }) => {
+        window.App.moar = data
+    })

@@ -6,7 +6,7 @@
         :src="image.src" 
         :key="image.key" 
         :style="{bottom: image.y + 'px', right: image.x + 'px'}"
-        class="canvas"
+        class="moar"
     />
 </div>
 </template>
@@ -20,16 +20,15 @@
                 canvasHeight: 0,
                 canvasWidth: 0,
                 overlayedImages: [],
-                imagesSrc: [
-                    'https://placeimg.com/100/100/any'
-                ],
                 lastKey: 0
             }
         },
         methods: {
             addImg() {
+                console.log(Math.floor(Math.random() * window.App.moar.length));
                 this.overlayedImages.push({
-                    src: this.imagesSrc[0]+ '?' + this.lastKey,
+                    src: window.App.moar[Math.floor(Math.random() * window.App.moar.length)],
+                    // src: this.window.App.moar[0]+ '?' + this.lastKey,
                     key: this.lastKey,
                     x: Math.random() * (this.$el.clientWidth - 100),
                     y: Math.random() * (this.$el.clientHeight - 100),
@@ -42,16 +41,16 @@
                 this.showCanvas = true;
             }
         },
-        mounted() {
-        }
     }
 </script>
 
-<style>
+<style scoped>
+    
     .t {
         position: relative;
     }
-    .canvas {
+    .moar {
+        width: 100px;
         position: absolute;
     }
 </style>
