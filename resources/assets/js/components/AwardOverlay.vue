@@ -25,10 +25,10 @@
         },
         methods: {
             addImg() {
-                console.log(Math.floor(Math.random() * window.App.moar.length));
+                console.log(Math.floor(Math.random() * window.site.moar.length));
                 this.overlayedImages.push({
-                    src: window.App.moar[Math.floor(Math.random() * window.App.moar.length)],
-                    // src: this.window.App.moar[0]+ '?' + this.lastKey,
+                    src: window.site.moar[Math.floor(Math.random() * window.site.moar.length)],
+                    // src: this.window.site.moar[0]+ '?' + this.lastKey,
                     key: this.lastKey,
                     x: Math.random() * (this.$el.clientWidth - 100),
                     y: Math.random() * (this.$el.clientHeight - 100),

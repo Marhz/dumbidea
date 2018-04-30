@@ -48,9 +48,9 @@ window.flash = function (message, level = 'success') {
     window.events.$emit('flash', { message, level });
 }
 
-window.App = {};
-window.App.moar = [];
+window.site = {};
+window.site.moar = [];
 axios.get('/moar')
     .then(({ data }) => {
-        window.App.moar = data
+        window.site.moar = data
     })
